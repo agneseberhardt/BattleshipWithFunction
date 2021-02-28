@@ -46,7 +46,7 @@ export default function Gameboard() {
         if(amountbombs <=1){
             console.log("lost");
             gameOver();
-        }else if(amountships <= 1){
+        }else if(amountships <= 0){
             console.log("won");
             gameWon();
         }
@@ -128,7 +128,9 @@ export default function Gameboard() {
     function startOrResetGame() {
         if (gameStatus === "Game has not started" || gameStatus === "Click the start button first") {
             startGame();
-        } else if (gameStatus === "Game is on...") {
+        } else if (gameStatus === "Game is on..."  || gameStatus === "Game over. Ships remaining") {
+            resetGame();
+        }else if (gameStatus === "You sinked all ships" ) {
             resetGame();
         }
     }
@@ -139,7 +141,7 @@ export default function Gameboard() {
         setamounthits(0);
         setAmountships(3)
         setSeconds(0);
-        setwinner('');
+        //setwinner('');
         setbuttonText("Start game")
         setgameStatus("Game has not started")
         setgameStarted(false);
