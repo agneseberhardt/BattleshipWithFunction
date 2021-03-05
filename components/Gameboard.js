@@ -113,11 +113,13 @@ export default function Gameboard() {
     function gameOver() {
         setgameStatus("Game over. Ships remaining")
         setGameDone(true);
+        clearInterval(intervalId.current);
 
     }
     function gameWon() {
         setgameStatus("You sinked all ships")
         setGameDone(true);
+        clearInterval(intervalId.current);
 
     }
 
@@ -127,6 +129,7 @@ export default function Gameboard() {
         setgameStatus("Game is on...");
         setbuttonText("New game");
         setgameStarted(true);
+        clearInterval(intervalId.current);
 
     }
     function startTimer() {
