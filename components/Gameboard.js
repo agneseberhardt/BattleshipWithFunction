@@ -43,39 +43,54 @@ export default function Gameboard() {
     }
 
     function winGame() {
-        if(amountbombs <=1){
+        if (amountbombs === 0) {
             console.log("lost");
+            setGameDone(true);
             gameOver();
-        }else if(amountships <= 0){
+            return true;
+        } else if (amountships === 0) {
             console.log("won");
+            setGameDone(true);
             gameWon();
+            return true;
+        } else if (amounthits === 3) {
+            console.log("won");
+            setGameDone(true);
+            gameWon();
+            return true;
+        } else {
+            return false;
         }
-        
+
     }
 
     function drawItem(number) {
         //console.log(positionships);
         if (!gameStarted) {
             setgameStatus("Click the start button first")
-        }else if(gameDone){
+        } else if (gameDone) {
             console.log("game done")
         } else {
-            winGame();
-            setamountbombs(bombs => bombs - 1)
-            console.log(board[number])
-            if (board[number] === START) {
-                board[number] = CROSS;
-                for (let i = 0; i < 3; i++) {
-                    console.log(positionships[i]);
-                    if (positionships[i] === number) {
-                        board[number] = CIRCLE;
-                        setamounthits(amounthits => amounthits+1);
-                        setAmountships(amountships => amountships-1)
+            if (winGame()) {
+                console.log("it works yeeeet")
+            } else {
+
+                setamountbombs(bombs => bombs - 1)
+                console.log(board[number])
+                if (board[number] === START) {
+                    board[number] = CROSS;
+                    for (let i = 0; i < 3; i++) {
+                        console.log(positionships[i]);
+                        if (positionships[i] === number) {
+                            board[number] = CIRCLE;
+                            setamounthits(amounthits => amounthits + 1);
+                            setAmountships(amountships => amountships - 1)
 
 
+                        }
                     }
-                }
 
+                }
             }
         }
 
@@ -83,7 +98,7 @@ export default function Gameboard() {
 
 
 
- 
+
     function generateRandomShips() {
         const positions = [];
         for (let i = 0; i < 3; i++) {
@@ -115,12 +130,15 @@ export default function Gameboard() {
 
     }
     function startTimer() {
-        intervalId.current =  setInterval(() => {
+        intervalId.current = setInterval(() => {
+            if (winGame()) {
+                console.log("it works yeeeet")
+            }
             setSeconds(seconds => seconds + 1);
-            
+
         }, 1000);
 
-      
+
     }
 
 
@@ -128,9 +146,9 @@ export default function Gameboard() {
     function startOrResetGame() {
         if (gameStatus === "Game has not started" || gameStatus === "Click the start button first") {
             startGame();
-        } else if (gameStatus === "Game is on..."  || gameStatus === "Game over. Ships remaining") {
+        } else if (gameStatus === "Game is on..." || gameStatus === "Game over. Ships remaining") {
             resetGame();
-        }else if (gameStatus === "You sinked all ships" ) {
+        } else if (gameStatus === "You sinked all ships") {
             resetGame();
         }
     }
@@ -244,7 +262,7 @@ export default function Gameboard() {
                 <Pressable key={21} style={styles.row} onPress={() => drawItem(21)}>
                     <Entypo key={21} name={board[21]} size={32} color={chooseItemColor(21)} />
                 </Pressable>
-                <Pressable key={22} style={styles.row} onPress={() => drawItem(17)}>
+                <Pressable key={22} style={styles.row} onPress={() => drawItem(22)}>
                     <Entypo key={22} name={board[22]} size={32} color={chooseItemColor(22)} />
                 </Pressable>
                 <Pressable key={23} style={styles.row} onPress={() => drawItem(23)}>
